@@ -5,7 +5,7 @@
 
 int menu();
 void signup();
-// void login();
+void login();
 // void forgot();
 // void change_password();
 // void delete_account();
@@ -41,7 +41,7 @@ int main()
             break;
 
         case 2:
-            // login();
+            login();
             break;
 
         case 3:
@@ -159,4 +159,52 @@ conf_pass:
         fwrite(&u, sizeof(struct account), 1, fp);
         fclose(fp);
     }
+}
+
+void login()
+{
+    system("cls");
+    char user[30], log_pass[20];
+
+    struct account u;
+    FILE *fp = fopen("account.txt", "r");
+    fread(&u, sizeof(struct account), 1, fp);
+
+name:
+    printf("Enter Username : ");
+    scanf("%s", user);
+    if (strcmp(u.username, user))
+    {
+        printf("\nPLEASE ENTER CORRECT USERNAME\n ");
+        goto name;
+    }
+
+    else
+    {
+    logpass:
+        printf("Enter password : ");
+        takepassword(log_pass);
+        if (strcmp(u.pass1, log_pass))
+        {
+            printf("\nINCORRET PASSWORD \n");
+            goto logpass;
+        }
+        else
+        {
+            system("cls");
+            printf("\n************ WELCOME %s ************\n", u.first_name);
+            divider();
+
+            printf("\nYour Details \n");
+            divider();
+            printf("\nUsername     : %s\n", u.username);
+            printf("First name   : %s\n", u.first_name);
+            printf("Last name    : %s\n", u.last_name);
+            printf("Phone number : %s\n", u.phone);
+            printf("Gender       : %c\n", u.gender);
+            printf("Password     : %s\n", u.pass1);
+        }
+        getch();
+    }
+    fclose(fp);
 }
